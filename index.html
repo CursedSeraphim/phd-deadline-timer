@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhD Deadline</title>
+    <style>
+        @font-face {
+            font-family: 'Druk Wide';
+            src: url('DrukWideBold.ttf') format('truetype');
+        }
+
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #FFE800;
+            color: #000;
+            margin: 0;
+            text-transform: uppercase;
+        }
+        h1 {
+            font-family: 'Druk Wide', sans-serif;
+            font-size: 64px;
+            font-weight: 400;
+            font-style: normal;
+            text-decoration: none;
+            text-transform: uppercase;
+            color: rgba(0, 0, 0, 1);
+            line-height: 56px;
+            margin: 0;
+            text-rendering: optimizelegibility;
+            -webkit-font-smoothing: antialiased;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            padding-bottom: 20px;
+            /* text-shadow: 3px 3px 0 #000; */
+        }
+        .container {
+            padding: 20px;
+            text-align: center;
+            /* border: 5px solid #000; */
+            /* box-shadow: 10px 10px 0 #000; */
+            background: #FFE800;
+        }
+        .result {
+            margin: 10px 0;
+            font-size: 2em;
+            line-height: 1.5;
+        }
+        .highlight {
+            background: #000;
+            color: #FFE800;
+            padding: 5px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>PhD Deadline</h1>
+    <div class="container">
+        <div class="result" id="result1"></div>
+        <div class="result" id="result2"></div>
+    </div>
+    <script>
+        function calculateDateDifference(date1, date2) {
+            const diffTime = Math.abs(date2 - date1);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            let years = date2.getFullYear() - date1.getFullYear();
+            let months = date2.getMonth() - date1.getMonth();
+            let days = date2.getDate() - date1.getDate();
+
+            if (days < 0) {
+                months--;
+                days += new Date(date2.getFullYear(), date2.getMonth(), 0).getDate();
+            }
+
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+
+            return { years, months, days, totalDays: diffDays };
+        }
+
+        function displayResults() {
+            const targetDate1 = new Date('2026-12-02');
+            const targetDate2 = new Date('2026-10-16');
+            const currentDate = new Date();
+
+            const result1 = calculateDateDifference(currentDate, targetDate1);
+            const result2 = calculateDateDifference(currentDate, targetDate2);
+
+            document.getElementById('result1').innerHTML = `Until 02.12.2026: <span class="highlight">${result1.years} years, ${result1.months} months, and ${result1.days} days</span> (Total: ${result1.totalDays} days)`;
+            document.getElementById('result2').innerHTML = `Until 16.10.2026: <span class="highlight">${result2.years} years, ${result2.months} months, and ${result2.days} days</span> (Total: ${result2.totalDays} days)`;
+        }
+
+        displayResults();
+    </script>
+</body>
+</html>
